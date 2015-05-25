@@ -14,6 +14,15 @@ def hwlist(s, args):
         args.course = raw_input('course: ')
     get_homework_list(s, args.course)
 
+def hwdetail(s, args):
+    if not args.course:
+        get_course_list(s)
+        args.course = raw_input('course: ')
+    if not args.homework:
+        get_homework_list(s, args.course)
+        args.homework = raw_input('homework: ')
+    get_homework_detail(s, args.course, args.homework, args.download)
+
 def forum(s, args):
     if not args.course:
         get_course_list(s)
@@ -32,6 +41,12 @@ p.set_defaults(func=clist)
 p = subparser.add_parser('hwlist', help='list homeworks')
 p.add_argument('-c', '--course', help='course id')
 p.set_defaults(func=hwlist)
+
+p = subparser.add_parser('hwdetail', help='show homework detail')
+p.add_argument('-c', '--course', help='course id')
+p.add_argument('-H', '--homework', help='homework id')
+p.add_argument('-d', '--download', action='store_true', help='download homework attackments')
+p.set_defaults(func=hwdetail)
 
 p = subparser.add_parser('forum', help='show course forum')
 p.add_argument('-c', '--course', help='course id')
