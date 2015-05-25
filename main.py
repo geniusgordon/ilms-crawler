@@ -24,16 +24,17 @@ def post(s, args):
     get_post_detail(s, args.post)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-c', '--course', help='course id')
 subparser = parser.add_subparsers()
 
 p = subparser.add_parser('clist', description='list course')
 p.set_defaults(func=clist)
 
 p = subparser.add_parser('hwlist', description='list homeworks')
+p.add_argument('-c', '--course', help='course id')
 p.set_defaults(func=hwlist)
 
 p = subparser.add_parser('forum', description='show course forum')
+p.add_argument('-c', '--course', help='course id')
 p.add_argument('-p', '--page', default=1, help='forum page')
 p.set_defaults(func=forum)
 
