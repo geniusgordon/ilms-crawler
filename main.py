@@ -5,34 +5,45 @@ import argparse
 from login import login
 from course import *
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-l', '--list', help='list courses', action='store_true')
-parser.add_argument('-c', '--course', help='course id')
-parser.add_argument('-H', '--homework', help='show course homework', action='store_true')
-parser.add_argument('-f', '--forum', help='show course forum', action='store_true')
-parser.add_argument('-P', '--page', help='forum page')
-parser.add_argument('-p', '--post', help='show post detail')
-args = parser.parse_args()
-
-s = login()
-
-if args.list:
+def clist(s, args):
     get_course_list(s)
 
-if args.homework:
+def hwlist(s, args):
     if not args.course:
         get_course_list(s)
         args.course = raw_input('course: ')
     get_homework_list(s, args.course)
 
-if args.forum:
+def forum(s, args):
     if not args.course:
         get_course_list(s)
         args.course = raw_input('course: ')
-    if not args.page:
-        args.page = 1
     get_forum_list(s, args.course, args.page)
 
-if args.post:
+def post(s, args):
     get_post_detail(s, args.post)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--course', help='course id')
+subparser = parser.add_subparsers()
+
+p = subparser.add_parser('clist', description='list course')
+p.set_defaults(func=clist)
+
+p = subparser.add_parser('hwlist', description='list homeworks')
+p.set_defaults(func=hwlist)
+
+p = subparser.add_parser('forum', description='show course forum')
+p.add_argument('-p', '--page', default=1, help='forum page')
+p.set_defaults(func=forum)
+
+p = subparser.add_parser('post', description='show post detail')
+p.add_argument('-p', '--post', required=True, help='post id')
+p.set_defaults(func=post)
+
+args = parser.parse_args()
+
+s = login()
+args.func(s, args)
+
 
