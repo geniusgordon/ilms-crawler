@@ -27,6 +27,9 @@ def get_homework_list(s, course):
         print row.cssselect('td')[4].text_content().strip(), '\t', 
         print row.cssselect('td')[1].text_content().strip()
 
+def get_homework_detail(s, course, homework):
+    url = config.get('url', 'hwdetail') % (course, homework)
+
 def get_forum_list(s, course, page=1):
     url = config.get('url', 'forum') % (course, page)
     r = s.get(url)
@@ -38,7 +41,10 @@ def get_forum_list(s, course, page=1):
             print row.cssselect('td')[1].text_content().strip()
     pages = len(pq('.page span')) - 2
     curr =  pq('.page .curr').text()
-    print '%s of %s pages' % (curr, pages)
+    if pages > 0:
+        print '%s of %s pages' % (curr, pages)
+    else:
+        print '1 of 1 page'
 
 def get_post_detail(s, post):
     url = config.get('url', 'post')

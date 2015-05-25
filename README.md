@@ -6,6 +6,8 @@ just for fun
 
 ### Usage
 
+specify your student id and password in `lms.cfg`
+
 	main.py [-h] [-l] [-c COURSE] [-H] [-f] [-p POST]
 
 	-h, --help            show this help message and exit
