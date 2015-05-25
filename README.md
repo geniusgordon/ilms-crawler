@@ -6,19 +6,13 @@ just for fun
 
 ### Usage
 
-usage: main.py [-h] [-l] [-c COURSE] [-H] [-f] [-p POST]
+	main.py [-h] [-l] [-c COURSE] [-H] [-f] [-p POST]
 
-optional arguments:
-
-  -h, --help            show this help message and exit
-
-  -l, --list            list courses
-
-  -c COURSE, --course COURSE
-                        course id
-  -H, --homework        show course homework
-
-  -f, --forum           show course forum
-
-  -p POST, --post POST  show post detail
+	-h, --help            show this help message and exit
+	-l, --list            list courses
+	-c COURSE, --course COURSE
+	                      course id
+	-H, --homework        show course homework
+	-f, --forum           show course forum
+	-p POST, --post POST  show post detail`
 
