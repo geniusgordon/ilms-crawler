@@ -23,6 +23,21 @@ def hwdetail(s, args):
         args.homework = raw_input('homework: ')
     get_homework_detail(s, args.course, args.homework, args.download)
 
+def doclist(s, args):
+    if not args.course:
+        get_course_list(s)
+        args.course = raw_input('course: ')
+    get_doc_list(s, args.course)
+
+def docdetail(s, args):
+    if not args.course:
+        get_course_list(s)
+        args.course = raw_input('course: ')
+    if not args.doc:
+        get_doc_list(s, args.course)
+        args.doc = raw_input('doc: ')
+    get_doc_detail(s, args.course, args.doc, args.download)
+
 def forum(s, args):
     if not args.course:
         get_course_list(s)
@@ -47,6 +62,16 @@ p.add_argument('-c', '--course', help='course id')
 p.add_argument('-H', '--homework', help='homework id')
 p.add_argument('-d', '--download', action='store_true', help='download homework attackments')
 p.set_defaults(func=hwdetail)
+
+p = subparser.add_parser('doclist', help='list documents')
+p.add_argument('-c', '--course', help='course id')
+p.set_defaults(func=doclist)
+
+p = subparser.add_parser('docdetail', help='show document detail')
+p.add_argument('-c', '--course', help='course id')
+p.add_argument('-D', '--doc', help='document id')
+p.add_argument('-d', '--download', action='store_true', help='download document attackments')
+p.set_defaults(func=docdetail)
 
 p = subparser.add_parser('forum', help='show course forum')
 p.add_argument('-c', '--course', help='course id')
