@@ -17,20 +17,21 @@ def login():
     s = load_session()
     if not s:
         s = requests.Session()
-    r = s.post(url, data={'account': user[0], 'password': user[1]})
-    try:
-        if json.loads(r.text)['ret']['status'] == 'false':
-            raise
-        print "Logged in...\n"
-        return s
-    except:
-        print 'Login Failure...'
-	exit(1)
+        r = s.post(url, data={'account': user[0], 'password': user[1]})
+        try:
+            if json.loads(r.text)['ret']['status'] == 'false':
+                raise
+            print "Logged in...\n"
+        except:
+            print 'Login Failure...\n'
+            exit(1)
+    return s
 
 def load_session():
     filename = config.get('session', 'filename')
     if os.path.exists(filename):
         with open(filename, 'r') as f:
+            print 'Load session...\n'
             return pickle.load(f)
     return None
 
