@@ -21,6 +21,7 @@ def login():
         try:
             if json.loads(r.text)['ret']['status'] == 'false':
                 raise
+            save_session(s)
             print "Logged in...\n"
         except:
             print 'Login Failure...\n'

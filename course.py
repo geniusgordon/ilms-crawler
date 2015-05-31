@@ -88,3 +88,15 @@ def get_post_detail(s, post):
         print '---'
     print ''
 
+def get_doc_list(s, course):
+    url = config.get('url', 'doclist') % course
+    r = s.get(url)
+    pq = PyQuery(r.content)
+    rows = pq('tr')[1:]
+    for row in rows:
+        a = row.cssselect('td')[1].cssselect('a')[0]
+        print a.attrib['href'].split('=')[-1], '\t',
+        print a.text_content().strip()
+    print ''
+
+
