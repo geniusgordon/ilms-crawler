@@ -3,6 +3,7 @@
 import os
 import json
 import requests
+import sys
 
 from config import config
 
@@ -22,6 +23,7 @@ def login():
         return s
     except:
         print 'Login Failure...'
+	exit(1)
 
 if __name__ == '__main__':
     login()
