@@ -99,4 +99,25 @@ def get_doc_list(s, course):
         print a.text_content().strip()
     print ''
 
+def get_doc_detail(s, course, doc, download=False):
+    url = config.get('url', 'docdetail') % (course, doc)
+    r = s.get(url)
+    pq = PyQuery(r.content)
+    title = pq('.doc .title').text()
+    article = pq('.doc .article').html()
+    print article
+
+    attachments = []
+
+    if len('attach a:first-child') > 0:
+        print '>>Attachments'
+        for a in pq('.attach a:first-child'):
+            print ' ', a.attrib['href'].split('=')[-1], '\t',
+            print a.attrib['title']
+            attachments.append(a.attrib['href'].split('=')[-1])
+    print ''
+    if download:
+        for attach in attachments:
+            download_attachment(s, attach, 'doc_'+doc)
+        print ''
 
