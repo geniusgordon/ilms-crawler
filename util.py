@@ -1,22 +1,24 @@
 import os
 import sys
 import requests
+import html2text
 
 from pyquery import PyQuery
 from config import config
 
 def format_html(s):
-    pq = PyQuery(s)
-    r = []
-    for p in pq.contents():
-        try:
-            if p.tag != 'br':
-                r.append(p.text_content())
-        except:
-            r.append(p)
-    # for _r in r:
-        # print _r
-    return '\n'.join(r)
+    return html2text.html2text(s)
+    # pq = PyQuery(s)
+    # r = []
+    # for p in pq.contents():
+    #     try:
+    #         if p.tag != 'br':
+    #             r.append(p.text_content())
+    #     except:
+    #             r.append(p)
+    # # for _r in r:
+    #     # print _r
+    # return '\n'.join(r)
 
 def download_attachment(s, attachment, directory=None):
     url = config.get('url', 'attach') % attachment
