@@ -27,7 +27,7 @@ def doclist(s, args):
     if not args.course:
         get_course_list(s)
         args.course = raw_input('course: ')
-    get_doc_list(s, args.course)
+    get_doc_list(s, args.course, args.download)
 
 def docdetail(s, args):
     if not args.course:
@@ -65,6 +65,7 @@ p.set_defaults(func=hwdetail)
 
 p = subparser.add_parser('doclist', help='list documents')
 p.add_argument('-c', '--course', help='course id')
+p.add_argument('-d', '--download', action='store_true', help='download document attackments')
 p.set_defaults(func=doclist)
 
 p = subparser.add_parser('docdetail', help='show document detail')

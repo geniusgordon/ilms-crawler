@@ -88,16 +88,30 @@ def get_post_detail(s, post):
         print '---'
     print ''
 
-def get_doc_list(s, course):
+def get_doc_list(s, course, download=False):
     url = config.get('url', 'doclist') % course
     r = s.get(url)
     pq = PyQuery(r.content)
     rows = pq('tr')[1:]
+    docs = []
     for row in rows:
         a = row.cssselect('td')[1].cssselect('a')[0]
         print a.attrib['href'].split('=')[-1], '\t',
         print a.text_content().strip()
+        docs.append(a.attrib['href'].split('=')[-1])
     print ''
+
+    if download:
+        for doc in docs:
+            url = config.get('url', 'docdetail') % (course, doc)
+            r = s.get(url)
+            pq = PyQuery(r.content)
+            attachments = []
+            for a in pq('.attach a:first-child'):
+                attachments.append(a.attrib['href'].split('=')[-1])
+            for attach in attachments:
+                download_attachment(s, attach, 'course'+course)
+        print ''
 
 def get_doc_detail(s, course, doc, download=False):
     url = config.get('url', 'docdetail') % (course, doc)
@@ -109,7 +123,7 @@ def get_doc_detail(s, course, doc, download=False):
 
     attachments = []
 
-    if len('attach a:first-child') > 0:
+    if len(pq('.attach a:first-child')) > 0:
         print '>>Attachments'
         for a in pq('.attach a:first-child'):
             print ' ', a.attrib['href'].split('=')[-1], '\t',
